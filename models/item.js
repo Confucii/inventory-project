@@ -6,6 +6,7 @@ const ItemSchema = new Schema({
   title: { type: String, required: true },
   description: { type: String, required: true },
   category: [{ type: Schema.Types.ObjectId, ref: "Category", required: true }],
+  rarity: { type: String, enum: ["Common", "Rare", "Epic", "Legendary"] },
   price: { type: Number, required: true, min: 0 },
   inStock: { type: Number, required: true, min: 0 },
 });

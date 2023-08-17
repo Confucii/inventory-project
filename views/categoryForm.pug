@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  h1 #{title}
+
+  form(action="" method="POST") 
+    .form-group 
+      label(for="title")
+      input#title.form-control(type="text", name="title", value=(undefined===category ? "" : category.title)) 
