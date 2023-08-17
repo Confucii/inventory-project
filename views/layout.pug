@@ -1,0 +1,14 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    header
+      h1 Inventory
+      .links 
+        a(href="/inventory") Items
+        a(href="/inventory/categories") Categories
+        a(href="/inventory/item/new") New item
+        a(href="/inventory/category/new") New category
+    block content
