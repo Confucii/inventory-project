@@ -3,7 +3,7 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
-header {
+header.override {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -16,11 +16,21 @@ header {
 
 a {
   font-size: 20px;
-  text-decoration: none;
-  color: black;
   transition: all 0.2s ease-in-out;
 }
 
 a:hover {
   transform: scale(1.1);
+}
+
+.blue {
+  color: blue;
+}
+
+.purple {
+  color: purple;
+}
+
+.orange {
+  color: orange;
 }

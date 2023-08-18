@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  h1= title 
+  .categories 
+    each category in allCategories
+      hr
+      h4 #[strong Category:] 
+        a(href=category.url) #{category.title}
+      p #[strong Description:] #{category.description}
+    else 
+      p There are no categories yes.

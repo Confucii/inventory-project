@@ -1,0 +1,27 @@
+extends layout
+
+block content
+  h1 Item: #{item.title}
+  p Rarity: 
+    if (item.rarity === 'Rarity')
+      span.blue Rarity
+    else if (item.rarity === 'Epic')
+      span.purple Epic
+    else if (item.rarity === 'Legendary')
+      span.orange Legendary
+    else 
+      span Common
+  p Number in stock: #{item.inStock}
+  p Categories: 
+    each category, index in item.category
+      a(href=category.url) #{category.title}
+      if index < item.category.length - 1
+        |, 
+  p Description: #{item.description}
+  p Price: #{item.price}
+
+  p
+    a(href=item.url+'/update') Update item
+  p
+    a(href=item.url+'/delete') Delete item
+  
