@@ -2,24 +2,27 @@ extends layout
 
 block content
   h2= title
-  .items 
-    each item in allItems 
-      hr
-      h4 Item: 
-        a(href=item.url) #{item.title}
-      p Rarity: 
-        if (item.rarity === 'Rare')
-          span.blue Rare
-        else if (item.rarity === 'Epic')
-          span.purple Epic
-        else if (item.rarity === 'Legendary')
-          span.orange Legendary
-        else 
-          span Common
-      p Categories: 
-        each category, index in item.category
-          a(href=category.url) #{category.title}
-          if index < item.category.length - 1
-            |, 
-      p Price: #{item.price}; Stock: #{item.inStock}
-      p Description: #{item.description}
+  if !allItems.length
+    p No items added yet 
+  else 
+    .items 
+      each item in allItems 
+        hr
+        h4 Item: 
+          a(href=item.url) #{item.title}
+        p Rarity: 
+          if (item.rarity === 'Rare')
+            span.blue Rare
+          else if (item.rarity === 'Epic')
+            span.purple Epic
+          else if (item.rarity === 'Legendary')
+            span.orange Legendary
+          else 
+            span Common
+        p Categories: 
+          each category, index in item.category
+            a(href=category.url) #{category.title}
+            if index < item.category.length - 1
+              |, 
+        p Price: #{item.price}; Stock: #{item.inStock}
+        p Description: #{item.description}

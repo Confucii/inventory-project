@@ -9,6 +9,7 @@ const ItemSchema = new Schema({
   rarity: { type: String, enum: ["Common", "Rare", "Epic", "Legendary"] },
   price: { type: Number, required: true, min: 0 },
   inStock: { type: Number, required: true, min: 0 },
+  imagePath: { type: String, default: "/images/default.jpg" },
 });
 
 ItemSchema.virtual("url").get(function () {

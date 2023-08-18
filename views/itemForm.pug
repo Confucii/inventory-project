@@ -6,7 +6,7 @@ block content
   else 
     h1 #{title}
 
-    form(action="" method="POST") 
+    form(action="" method="POST" enctype="multipart/form-data") 
       .form-group 
         label(for="title") Title
         input#title.form-control(type="text", name="title", value=(undefined===item ? "" : item.title), required="true") 
@@ -17,6 +17,9 @@ block content
           option(value="Rare" selected=(undefined===item || item.rarity !== 'Rarity' ? false : 'selected')) Rare
           option(value="Epic" selected=(undefined===item || item.rarity !== 'Epic' ? false : 'selected')) Epic 
           option(value="Legendary" selected=(undefined===item || item.rarity !== 'Legendary' ? false : 'selected')) Legendary 
+      .form-group
+        label(for="itemImage")
+        input#itemImage.file-control(type="file", name="itemImage") 
       .form-group 
         label(for="instock") Number in stock 
         input#instock.form-control(type="number" name="instock" value=(undefined===item ? "" : item.inStock) required="true")

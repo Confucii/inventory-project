@@ -2,6 +2,7 @@ extends layout
 
 block content
   h1 Item: #{item.title}
+  img(src='../../' + item.imagePath, alt="item" width='300' height='300')
   p Rarity: 
     if (item.rarity === 'Rarity')
       span.blue Rarity
