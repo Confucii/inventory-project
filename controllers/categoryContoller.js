@@ -83,7 +83,11 @@ exports.categoryUpdateGet = asyncHandler(async (req, res, next) => {
     return next(err);
   }
 
-  res.render("categoryForm", { title: "Update Category", category: category });
+  res.render("categoryForm", {
+    title: "Update Category",
+    category: category,
+    password: true,
+  });
 });
 
 exports.categoryUpdatePost = [
@@ -95,6 +99,7 @@ exports.categoryUpdatePost = [
     .trim()
     .isLength({ min: 10 })
     .escape(),
+  body("password", "Password is incorrect").equals("secretpassword").escape(),
 
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
@@ -110,6 +115,7 @@ exports.categoryUpdatePost = [
         title: "Update Category",
         category: category,
         errors: errors.array(),
+        password: true,
       });
       return;
     } else {
@@ -148,21 +154,27 @@ exports.categoryDeleteGet = asyncHandler(async (req, res, next) => {
   });
 });
 
-exports.categoryDeletePost = asyncHandler(async (req, res, next) => {
-  const [category, allCategoryItems] = await Promise.all([
-    Category.findById(req.params.id).exec(),
-    Item.find({ category: req.params.id }).exec(),
-  ]);
+exports.categoryDeletePost = [
+  body("password", "Password is incorrect").equals("secretpassword").escape(),
+  asyncHandler(async (req, res, next) => {
+    const errors = validationResult(req);
 
-  if (allCategoryItems.length > 0) {
-    res.render("categoryDelete", {
-      title: "Delete Category",
-      category: category,
-      allCategoryItems: allCategoryItems,
-    });
-    return;
-  } else {
-    await Category.findByIdAndRemove(req.body.categoryid);
-    res.redirect("/inventory/categories");
-  }
-});
+    const [category, allCategoryItems] = await Promise.all([
+      Category.findById(req.params.id).exec(),
+      Item.find({ category: req.params.id }).exec(),
+    ]);
+
+    if (allCategoryItems.length > 0 || !errors.isEmpty()) {
+      res.render("categoryDelete", {
+        title: "Delete Category",
+        category: category,
+        allCategoryItems: allCategoryItems,
+        errors: errors.array(),
+      });
+      return;
+    } else {
+      await Category.findByIdAndRemove(req.body.categoryid);
+      res.redirect("/inventory/categories");
+    }
+  }),
+];

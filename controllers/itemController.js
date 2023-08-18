@@ -145,6 +145,7 @@ exports.itemUpdateGet = asyncHandler(async (req, res, next) => {
     title: "Update Item",
     item: item,
     categories: allCategories,
+    password: true,
   });
 });
 
@@ -177,7 +178,7 @@ exports.itemUpdatePost = [
     .trim()
     .isLength({ min: 10 })
     .escape(),
-
+  body("password", "Password is incorrect").equals("secretpassword").escape(),
   checkSchema({
     imagePath: {
       custom: {
@@ -228,6 +229,7 @@ exports.itemUpdatePost = [
         item: item,
         categories: allCategories,
         errors: errors.array(),
+        password: true,
       });
     } else {
       if (req.file?.path && currentItem.imagePath !== "/images/default.jpg") {
@@ -253,7 +255,17 @@ exports.itemDeleteGet = asyncHandler(async (req, res, next) => {
   res.render("itemDelete", { item: item });
 });
 
-exports.itemDeletePost = asyncHandler(async (req, res, next) => {
-  await Item.findByIdAndRemove(req.body.itemid);
-  res.redirect("/inventory");
-});
+exports.itemDeletePost = [
+  body("password", "Password is incorrect").equals("secretpassword").escape(),
+  asyncHandler(async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const item = await Item.findById(req.params.id).exec();
+
+      res.render("itemDelete", { item: item, errors: errors.array() });
+    } else {
+      await Item.findByIdAndRemove(req.body.itemid);
+      res.redirect("/inventory");
+    }
+  }),
+];
